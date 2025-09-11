@@ -4,7 +4,10 @@
   "package": "com.munist.snackzone.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ModChallenges",
+    "ModDatagenMixin"
+  ],
+  "client": [
+    "ModInitMixin"
   ],
   "injectors": {
     "defaultRequire": 1

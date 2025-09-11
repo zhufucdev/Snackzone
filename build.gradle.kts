@@ -46,6 +46,14 @@ repositories {
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
+    repositories {
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+        maven {
+            name = "Ladysnake Mods"
+            url = uri("https://maven.ladysnake.org/releases")
+        }
+    }
 }
 
 dependencies {
@@ -54,8 +62,12 @@ dependencies {
     mappings("net.fabricmc:yarn:${project.property("yarn_mappings")}:v2")
     modImplementation("net.fabricmc:fabric-loader:${project.property("loader_version")}")
     modImplementation("net.fabricmc:fabric-language-kotlin:${project.property("kotlin_loader_version")}")
-
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project.property("fabric_version")}")
+
+    modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-base:${project.property("cca_version")}")
+    modImplementation("it.unimi.dsi:fastutil:8.5.16")
+    modImplementation("com.github.8s2:zine:9a71d2dfc0")
+    modImplementation(files("libs/Hide-and-Seek-1.0.0.jar"))
 //    modImplementation(fileTree("reference") {
 //        include("*.jar")
 //    })
