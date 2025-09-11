@@ -4,6 +4,7 @@
   "package": "com.munist.snackzone.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ModChallenges",
   ],
   "injectors": {
     "defaultRequire": 1
