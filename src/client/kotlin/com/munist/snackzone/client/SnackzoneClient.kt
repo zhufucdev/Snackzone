@@ -8,6 +8,6 @@ class SnackzoneClient : ClientModInitializer {
     override fun onInitializeClient() {
         Log.configureBuiltin(false, true)
         Log.finishBuiltinConfig()
-        Log.debug(LogCategory.ENTRYPOINT, "Hello Communist! We will it great together.")
+        Log.info(LogCategory.ENTRYPOINT, "[SnackZone] Hello Communist! We will make it great together.")
     }
 }
