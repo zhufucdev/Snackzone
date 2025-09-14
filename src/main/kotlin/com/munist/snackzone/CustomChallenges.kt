@@ -13,8 +13,9 @@ import net.minecraft.registry.RegistryWrapper
 import java.util.*
 
 object CustomChallenges {
-    val BREAK_A_WOODEN_HOE: RegistryKey<Challenge> = create("break_a_wooden_hoe")
-    val keys = setOf(BREAK_A_WOODEN_HOE)
+    val BREAK_A_WOODEN_HOE: RegistryKey<Challenge> = register("break_a_wooden_hoe")
+    private val _metadata = mutableSetOf<ChallengeMetadata>()
+    val metadata: Set<ChallengeMetadata> get() = _metadata
 
     fun builders(lut: RegistryWrapper.WrapperLookup): Map<RegistryKey<Challenge>, Challenge.Builder> {
         val itemLookup = lut.getOptional(RegistryKeys.ITEM).get()
@@ -32,5 +33,9 @@ object CustomChallenges {
         )
     }
 
-    private fun create(name: String): RegistryKey<Challenge> = ModInit.REGISTRY.key(ModRegistries.CHALLENGE_KEY, name)
+    private fun register(name: String, weight: Int = 1): RegistryKey<Challenge> {
+        val key = ModInit.REGISTRY.key(ModRegistries.CHALLENGE_KEY, name)
+        _metadata.add(ChallengeMetadata(key, weight))
+        return key
+    }
 }
