@@ -1,38 +1,43 @@
 package com.munist.snackzone.client
 
+import com.eightsidedsquare.hideandseek.common.game.challenge.Challenge
 import com.eightsidedsquare.hideandseek.core.ModRegistries
-import com.munist.snackzone.challenge.CustomChallenges
+import com.mojang.serialization.JsonOps
+import com.munist.snackzone.CustomChallenges
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider
-import net.minecraft.registry.RegistryBuilder
+import net.minecraft.data.DataOutput
+import net.minecraft.data.DataProvider
+import net.minecraft.data.DataWriter
 import net.minecraft.registry.RegistryWrapper
 import java.util.concurrent.CompletableFuture
 
 class SnackzoneDataGenerator : DataGeneratorEntrypoint {
     override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
         val pack = fabricDataGenerator.createPack()
-        pack.addProvider { output, registriesFuture ->
-            DynamicRegistryGen(output, registriesFuture)
-        }
+        pack.addProvider(::CustomChallengesProvider)
     }
 
-    override fun buildRegistry(registryBuilder: RegistryBuilder) {
-        registryBuilder.addRegistry(ModRegistries.CHALLENGE_KEY, CustomChallenges::bootstrap)
-    }
-
-    class DynamicRegistryGen(
+    inner class CustomChallengesProvider(
         output: FabricDataOutput,
-        registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>
-    ) : FabricDynamicRegistryProvider(output, registriesFuture) {
-        override fun configure(
-            lookup: RegistryWrapper.WrapperLookup,
-            entries: Entries
-        ) {
-            val challengeRegistry = lookup.getOrThrow(ModRegistries.CHALLENGE_KEY)
-            challengeRegistry.streamEntries().forEach { challengeEntry ->
-                entries.add(challengeEntry)
+        private val registriesFuture: CompletableFuture<RegistryWrapper.WrapperLookup>
+    ) : DataProvider {
+        val pathResolver: DataOutput.PathResolver = output.getResolver(ModRegistries.CHALLENGE_KEY)
+
+        override fun run(writer: DataWriter): CompletableFuture<*> {
+            return this.registriesFuture.thenCompose { lut ->
+                val opts = lut.getOps(JsonOps.INSTANCE)
+                val futures = CustomChallenges.builders(lut)
+                    .mapValues { (key, builder) ->
+                        builder.translationKey("challenge.snackzone." + key.value.path).build()
+                    }
+                    .map { (key, challenge) ->
+                        val json = Challenge.CODEC.encodeStart(opts, challenge)
+                            .getOrThrow(::IllegalStateException).asJsonObject
+                        DataProvider.writeToPath(writer, json, pathResolver.resolveJson(key))
+                    }
+                CompletableFuture.allOf(*futures.toTypedArray())
             }
         }
 
