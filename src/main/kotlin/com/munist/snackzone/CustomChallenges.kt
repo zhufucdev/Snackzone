@@ -1,6 +1,7 @@
 package com.munist.snackzone
 
 import com.eightsidedsquare.hideandseek.common.game.challenge.Challenge
+import com.eightsidedsquare.hideandseek.core.ModChallenges
 import com.eightsidedsquare.hideandseek.core.ModInit
 import com.eightsidedsquare.hideandseek.core.ModRegistries
 import net.minecraft.advancement.criterion.ItemDurabilityChangedCriterion
@@ -18,6 +19,7 @@ object CustomChallenges {
 
     val BREAK_A_WOODEN_HOE = register("break_a_wooden_hoe")
     val TOUCH_WORLD_BORDER = register("touch_world_border")
+    val unwantedKeys = setOf(ModChallenges.IGNITE_TNT)
 
     fun builders(lut: RegistryWrapper.WrapperLookup): Map<RegistryKey<Challenge>, Challenge.Builder> {
         val itemLookup = lut.getOptional(RegistryKeys.ITEM).get()
