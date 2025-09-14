@@ -4,7 +4,8 @@
   "package": "com.munist.snackzone.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ModInitMixin"
+    "ModInitMixin",
+    "ServerPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

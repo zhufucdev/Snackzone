@@ -16,7 +16,8 @@ object CustomChallenges {
     private val _metadata = mutableSetOf<ChallengeMetadata>()
     val metadata: Set<ChallengeMetadata> get() = _metadata
 
-    val BREAK_A_WOODEN_HOE: RegistryKey<Challenge> = register("break_a_wooden_hoe")
+    val BREAK_A_WOODEN_HOE = register("break_a_wooden_hoe")
+    val TOUCH_WORLD_BORDER = register("touch_world_border")
 
     fun builders(lut: RegistryWrapper.WrapperLookup): Map<RegistryKey<Challenge>, Challenge.Builder> {
         val itemLookup = lut.getOptional(RegistryKeys.ITEM).get()
@@ -30,7 +31,9 @@ object CustomChallenges {
                         ),
                         NumberRange.IntRange.atMost(0)
                     )
-                )
+                ),
+            TOUCH_WORLD_BORDER to Challenge.builder()
+                .criterion(SnackzoneCriteria.TOUCH_WORLD_BORDER.create(TouchWorldBorderCriterion.Conditions()))
         )
     }
 
