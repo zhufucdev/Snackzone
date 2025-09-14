@@ -30,7 +30,7 @@ class SnackzoneDataGenerator : DataGeneratorEntrypoint {
                 val opts = lut.getOps(JsonOps.INSTANCE)
                 val futures = CustomChallenges.builders(lut)
                     .mapValues { (key, builder) ->
-                        builder.translationKey("challenge.snackzone." + key.value.path).build()
+                        builder.translationKey("challenge.hideandseek." + key.value.path).build()
                     }
                     .map { (key, challenge) ->
                         val json = Challenge.CODEC.encodeStart(opts, challenge)
