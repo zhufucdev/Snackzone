@@ -19,6 +19,7 @@ object CustomChallenges {
 
     val BREAK_A_WOODEN_HOE = register("break_a_wooden_hoe")
     val TOUCH_WORLD_BORDER = register("touch_world_border")
+    val IGNITE_A_CREEPER = register("ignite_a_creeper")
     val unwantedKeys = setOf(ModChallenges.IGNITE_TNT)
 
     fun builders(lut: RegistryWrapper.WrapperLookup): Map<RegistryKey<Challenge>, Challenge.Builder> {
@@ -35,7 +36,12 @@ object CustomChallenges {
                     )
                 ),
             TOUCH_WORLD_BORDER to Challenge.builder()
-                .criterion(SnackzoneCriteria.TOUCH_WORLD_BORDER.create(TouchWorldBorderCriterion.Conditions()))
+                .criterion(SnackzoneCriteria.TOUCH_WORLD_BORDER.create(TouchWorldBorderCriterion.Conditions())),
+            IGNITE_A_CREEPER to Challenge.builder().criterion(
+                SnackzoneCriteria.IGNITE_CREEPER.create(
+                    IgniteCreeperCriteria.Conditions()
+                )
+            )
         )
     }
 
