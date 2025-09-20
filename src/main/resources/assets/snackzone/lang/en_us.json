@@ -1,6 +1,7 @@
 {
   "challenge.hideandseek.break_a_wooden_hoe": "Break a Wooden Hoe",
   "challenge.hideandseek.touch_world_border": "Touch World Border",
-  "challenge.hideandseek.ignite_a_creeper": "Ignite a Creeper"
+  "challenge.hideandseek.ignite_a_creeper": "Ignite a Creeper",
+  "hideandseek.minimap.click_action.toggle_shader": "Toggle Shader"
 }
 

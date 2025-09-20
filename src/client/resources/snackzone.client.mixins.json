@@ -4,11 +4,16 @@
   "package": "com.munist.snackzone.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "MinimapClickActionMixin",
+    "MinimapTabMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "overwrites": {
     "requireAnnotations": true
-  }
+  },
+  "mixins": [
+    "ClientWorldMarkingsMixin"
+  ]
 }
